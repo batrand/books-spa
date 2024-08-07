@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksSpa.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240807094628_InitialMigration")]
+    [Migration("20240807133608_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
