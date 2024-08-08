@@ -35,11 +35,13 @@ namespace BooksSpa.Api.Controllers
         [HttpGet]
         [Route("book/{id}")]
         [Produces(ContentTypes.Json)]
-        [ProducesResponseType(typeof(BookWithId), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BookWithId), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<BookWithId> GetSpecificBook(int id)
+        public async Task<ActionResult<BookWithId>> GetSpecificBook(int id)
         {
-            return Ok();
+            var existingBook = await _books.GetBookAsync(id);
+            if (existingBook == null) return NotFound();
+            return Ok(existingBook);
         }
         
         /// <summary>
@@ -52,9 +54,12 @@ namespace BooksSpa.Api.Controllers
         [Produces(ContentTypes.Json)]
         [ProducesResponseType(typeof(BookWithId), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<BookWithId> UpdateBook(int id, [FromBody] Book book)
+        public async Task<ActionResult<BookWithId>> UpdateBook(int id, [FromBody] Book book)
         {
-            return Ok();
+            var bookWithId = new BookWithId(book) { Id = id };
+            var updatedBook = await _books.UpdateBookAsync(bookWithId);
+            if (updatedBook == null) return NotFound();
+            return Ok(updatedBook);
         }
         
         /// <summary>
@@ -66,9 +71,12 @@ namespace BooksSpa.Api.Controllers
         [Produces(ContentTypes.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<BookWithId> DeleteBook(int id)
+        public async Task<ActionResult<BookWithId>> DeleteBook(int id)
         {
-            return Ok();
+            var deleted = await _books.DeleteBookAsync(id);
+            return deleted
+                ? Ok()
+                : NotFound();
         }
         
         /// <summary>

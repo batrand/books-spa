@@ -19,14 +19,20 @@ public class BookRepositoryService : IBookRepositoryService
         return bookWithId;
     }
 
-    public async Task<BookWithId> UpdateBookAsync(BookWithId book)
+    public async Task<BookWithId?> UpdateBookAsync(BookWithId book)
     {
-        throw new NotImplementedException();
+        var existingBook = await _database.Books.FindAsync(book.Id);
+        if (existingBook == null) return null;
+        
+        existingBook.Apply(book);
+        await _database.SaveChangesAsync();
+
+        return existingBook;
     }
 
-    public async Task<BookWithId> GetBookAsync(int bookId)
+    public async Task<BookWithId?> GetBookAsync(int bookId)
     {
-        throw new NotImplementedException();
+        return await _database.Books.FindAsync(bookId);
     }
 
     public async Task<IEnumerable<BookWithId>> GetAllBooksAsync()
@@ -35,8 +41,13 @@ public class BookRepositoryService : IBookRepositoryService
         return allBooks;
     }
 
-    public async Task DeleteBookAsync(int bookId)
+    public async Task<bool> DeleteBookAsync(int bookId)
     {
-        throw new NotImplementedException();
+        var existingBook = await _database.Books.FindAsync(bookId);
+        if (existingBook == null) return false;
+
+        _database.Books.Remove(existingBook);
+        await _database.SaveChangesAsync();
+        return true;
     }
 }

@@ -11,6 +11,11 @@ public class BookWithId: Book
 
     public BookWithId(Book book)
     {
+        Apply(book);
+    }
+
+    public void Apply(Book book)
+    {
         Title = book.Title;
         Author = book.Author;
         Isbn = book.Isbn;
