@@ -1,13 +1,12 @@
-﻿using BooksSpa.Api.Models;
-using BooksSpa.Api.Options;
+﻿using BooksSpa.Api.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace BooksSpa.Api.Services;
+namespace BooksSpa.Api.Data;
 
 public class AppDbContext: DbContext
 {
-    public DbSet<BookWithId> Books { get; set; }
+    public DbSet<BookEntity> Books { get; set; }
 
     private readonly AppDbOptions _options;
 
@@ -23,6 +22,6 @@ public class AppDbContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<BookWithId>().ToTable("Books");
+        modelBuilder.Entity<BookEntity>().ToTable("Books");
     }
 }

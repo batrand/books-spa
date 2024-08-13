@@ -1,4 +1,5 @@
 using AspNetCore.Authentication.ApiKey;
+using BooksSpa.Api.Data;
 using BooksSpa.Api.Infrastructure;
 using BooksSpa.Api.Options;
 using BooksSpa.Api.Services;

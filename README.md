@@ -17,3 +17,6 @@ In the event you want to generate a fresh DB, you can delete the `db.sqlite*` fi
 - `dotnet tool install -g dotnet-ef` to install EF Core Tools
 - `cd books-spa\BooksSpa\BooksSpa.Api`
 - `dotnet ef database update`
+
+# Error handling
+The API spec did not specify what type to return in case of errors. I've added the type `ErrorResponse` to accomodate for that.

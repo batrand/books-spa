@@ -1,4 +1,5 @@
-﻿using BooksSpa.Api.Models;
+﻿using BooksSpa.Api.Data;
+using BooksSpa.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BooksSpa.Api.Services;
@@ -13,10 +14,10 @@ public class BookRepositoryService : IBookRepositoryService
 
     public async Task<BookWithId> CreateBookAsync(Book book)
     {
-        var bookWithId = new BookWithId(book);
-        await _database.Books.AddAsync(bookWithId);
+        var entity = new BookEntity(book);
+        await _database.Books.AddAsync(entity);
         await _database.SaveChangesAsync();
-        return bookWithId;
+        return new BookWithId(entity);
     }
 
     public async Task<BookWithId?> UpdateBookAsync(BookWithId book)
@@ -27,18 +28,21 @@ public class BookRepositoryService : IBookRepositoryService
         existingBook.Apply(book);
         await _database.SaveChangesAsync();
 
-        return existingBook;
+        return new BookWithId(existingBook);
     }
 
     public async Task<BookWithId?> GetBookAsync(int bookId)
     {
-        return await _database.Books.FindAsync(bookId);
+        var existingBook = await _database.Books.FindAsync(bookId);
+        return existingBook == null
+            ? null
+            : new BookWithId(existingBook);
     }
 
     public async Task<IEnumerable<BookWithId>> GetAllBooksAsync()
     {
         var allBooks = await _database.Books.ToListAsync();
-        return allBooks;
+        return allBooks.Select(e => new BookWithId(e));
     }
 
     public async Task<bool> DeleteBookAsync(int bookId)
