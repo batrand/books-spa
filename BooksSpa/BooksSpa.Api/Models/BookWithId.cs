@@ -6,6 +6,8 @@ namespace BooksSpa.Api.Models;
 public class BookWithId: Book
 {
     public int Id { get; set; }
+    
+    public BookWithId() {}
 
     public BookWithId(BookEntity book)
     {
