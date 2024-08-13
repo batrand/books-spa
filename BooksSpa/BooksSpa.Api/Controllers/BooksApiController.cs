@@ -1,11 +1,13 @@
 using BooksSpa.Api.Constants;
 using BooksSpa.Api.Models;
 using BooksSpa.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BooksSpa.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     public class BooksApiController : ControllerBase
     {
         private readonly IBookRepositoryService _books;
