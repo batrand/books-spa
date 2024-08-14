@@ -6,9 +6,14 @@ namespace BooksSpa.Api.Data;
 
 public class AppDbContext: DbContext
 {
-    public DbSet<BookEntity> Books { get; set; }
+    public virtual DbSet<BookEntity> Books { get; set; }
 
     private readonly AppDbOptions _options;
+
+    public AppDbContext()
+    {
+        _options = new AppDbOptions { FileName = "db.sqlite" };
+    }
 
     public AppDbContext(IOptions<AppDbOptions> options)
     {
